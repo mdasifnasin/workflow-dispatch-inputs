@@ -51,9 +51,9 @@ jobs:
          echo "Terraform validate"
          echo "Terraform paln"
       
-         - name: Deployment
-         if: ${{inputs.test-type}} == 'production'
-         run: |
+      - name: Deployment
+        if: ${{inputs.test-type}} == 'production'
+        run: |
           echo "Running the Plan"
           echo "Terraform fmt"
           echo "Terraform validate"
