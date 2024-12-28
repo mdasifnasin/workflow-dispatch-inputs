@@ -1,8 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
-
-# Controls when the workflow will run
+name: Trigerring the workflow_dispatch using Inputs
 on:
   # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
@@ -10,27 +8,63 @@ on:
   pull_request:
     branches: [ "main" ]
 
-  # Allows you to run this workflow manually from the Actions tab
+  
   workflow_dispatch:
+    inputs:
+      run-test:
+        description: Weather to run or not
+        type: boolean
+        required: true
+        default: false
+      test-type:
+        description: What will be test type?
+        type: choice
+        options:
+          - sandbox
+          - unit
+          - pre-production
+          - production
+          - all
+        required: true
+      environment:
+        description: Current environment?
+        required: false
+        type: boolean
+      build_No:
+        description: What is Build No?
+        type: number
+        required: true
+      comment:
+        description: Any Message?
+        required: false
+        type: string
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  printing_the_inputs:
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Printing_all_the_inputs
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          echo " Printing the Run Test  : ${{inputs.run-test}}"
+          echo " Printing the  Test Type : ${{inputs.test-type}}"
+          echo " Printing the Current Environment  : ${{inputs.environment}}"
+          echo " Printing the  Build No. : ${{inputs.build_No}}"
+          echo " Printing the  Message/Comment : ${{inputs.comment}}"
+      - name: Run_Test
+        if: ${{inputs.test-type}} == "pre-production"
+        run: |
+         echo "Running the Plan"
+         echo "Terraform fmt"
+         echo "Terraform validate"
+         echo "Terraform paln"
+      
+         - name: Deployment
+         if: ${{inputs.test-type}} == "production"
+         run: |
+          echo "Running the Plan"
+          echo "Terraform fmt"
+          echo "Terraform validate"
+          echo "Terraform paln"
+         
+
+  
