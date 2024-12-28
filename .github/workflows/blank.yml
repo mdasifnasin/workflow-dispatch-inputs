@@ -13,11 +13,11 @@ on:
         description: What will be test type?
         type: choice
         options:
-          - sandbox
-          - unit
-          - pre-production
-          - production
-          - all
+          - 'sandbox'
+          - 'unit'
+          - 'pre-production'
+          - 'production'
+          - 'all'
         required: true
       environment:
         description: Current environment?
