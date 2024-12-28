@@ -13,11 +13,11 @@ on:
         description: What will be test type?
         type: choice
         options:
-          - 'sandbox'
-          - 'unit'
-          - 'pre-production'
-          - 'production'
-          - 'all'
+          - sandbox
+          - unit
+          - pre-production
+          - production
+          - all
         required: true
       environment:
         description: Current environment?
@@ -44,7 +44,7 @@ jobs:
           echo " Printing the  Build No. : ${{inputs.build_No}}"
           echo " Printing the  Message/Comment : ${{inputs.comment}}"
       - name: Run_Test
-        if: ${{inputs.test-type}} == 'pre-production'
+        if: ${{inputs.test-type == 'pre-production' }}
         run: |
          echo "Running the Plan"
          echo "Terraform fmt"
@@ -52,7 +52,7 @@ jobs:
          echo "Terraform paln"
       
       - name: Deployment
-        if: ${{inputs.test-type}} == 'production'
+        if: ${{inputs.test-type == 'production' }}
         run: |
           echo "Running the Plan"
           echo "Terraform fmt"
